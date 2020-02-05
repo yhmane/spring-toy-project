@@ -3,9 +3,10 @@ package com.spring.commerce.interfaces;
 import com.spring.commerce.applications.ItemService;
 import com.spring.commerce.domain.Item;
 import com.spring.commerce.domain.ItemRequestDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -13,9 +14,9 @@ import java.util.List;
  * @project commerce
  */
 @RestController
+@AllArgsConstructor
 public class ItemController {
 
-    @Autowired
     private ItemService itemService;
 
     @GetMapping("/items")
@@ -29,7 +30,7 @@ public class ItemController {
     }
 
     @PostMapping("/items")
-    public Item create(@RequestBody ItemRequestDto dto) {
+    public Item create(@Valid @RequestBody ItemRequestDto dto) {
         return itemService.create(dto);
     }
 }

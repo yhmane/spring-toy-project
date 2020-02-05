@@ -4,10 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * @author hwang-yunho on 2020. 2. 3.
@@ -18,8 +15,9 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Item {
 
-    @Id @GeneratedValue
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long itemId;
 
     @Column
     private String name;
@@ -35,5 +33,10 @@ public class Item {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
+    }
+
+    // TODO  4. 재고가 0 밑으로 떨어질 경우 처리 해줘야 함
+    public void calculateStockQuantity(int count) {
+        this.stockQuantity = stockQuantity - count;
     }
 }

@@ -3,12 +3,10 @@ package com.spring.commerce.applications;
 import com.spring.commerce.domain.Item;
 import com.spring.commerce.domain.ItemRepository;
 import com.spring.commerce.domain.ItemRequestDto;
-import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author hwang-yunho on 2020. 2. 3.
@@ -30,7 +28,7 @@ public class ItemService {
 
     public Item getItem(Long id) {
 
-        // todo error 처리 필요 (임시로 처리)
+        // TODO 1. 에러 처리 필요 (임시로 처리)
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new NullPointerException());
 
