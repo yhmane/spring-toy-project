@@ -5,6 +5,7 @@ import com.spring.commerce.infra.ItemRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemService {
@@ -18,11 +19,13 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
-    public void save(Item item){
-        itemRepository.save(Item.builder()
-                .name(item.getName())
-                .price(item.getPrice())
-                .stockQuantity(5).build()
-        );
+    public Item save(Item item){
+        return itemRepository.save(item);
     }
+
+    public Optional<Item> find(Long id) {
+        return itemRepository.findById(id);
+    }
+
+
 }
