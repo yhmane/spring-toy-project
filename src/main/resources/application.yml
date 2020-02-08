@@ -15,7 +15,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         globally_quoted_identifiers: true # group, order 등 키워드 entity 명으로 사용하기 위해 추가
