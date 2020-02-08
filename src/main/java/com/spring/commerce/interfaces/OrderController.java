@@ -4,9 +4,12 @@ import com.spring.commerce.applications.OrderService;
 import com.spring.commerce.domain.Order;
 import com.spring.commerce.domain.OrderItemRequestDto;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -29,7 +32,11 @@ public class OrderController {
     }
 
     @PostMapping("/orders")
-    public Long create(@Valid @RequestBody List<OrderItemRequestDto> list) {
-        return orderService.create(list);
+    public ResponseEntity<?> create(@Valid @RequestBody List<OrderItemRequestDto> list) throws URISyntaxException {
+
+        Order order = orderService.create(list);
+        URI location = new URI("/orders/" + order.getOrderId());
+
+        return ResponseEntity.created(location).body("{}");
     }
 }

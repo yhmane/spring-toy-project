@@ -36,7 +36,7 @@ public class OrderService {
         return order;
     }
 
-    public Long create(List<OrderItemRequestDto> list) {
+    public Order create(List<OrderItemRequestDto> list) {
 
         Order order = orderRepository.save(list.get(0).toOrderEntity());
 
@@ -53,7 +53,8 @@ public class OrderService {
 
         List<OrderItem> orderItems = orderItemRepository.findByOrder(order);
         order.setOrderItems(orderItems);
-        return order.getOrderId();
+
+        return order;
     }
 }
 

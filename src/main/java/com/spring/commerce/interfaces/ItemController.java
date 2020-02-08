@@ -4,9 +4,12 @@ import com.spring.commerce.applications.ItemService;
 import com.spring.commerce.domain.Item;
 import com.spring.commerce.domain.ItemRequestDto;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -30,7 +33,11 @@ public class ItemController {
     }
 
     @PostMapping("/items")
-    public Item create(@Valid @RequestBody ItemRequestDto dto) {
-        return itemService.create(dto);
+    public ResponseEntity<?> create(@Valid @RequestBody ItemRequestDto dto) throws URISyntaxException {
+
+        Item item = itemService.create(dto);
+        URI location = new URI("/items/" + item.getItemId());
+
+        return ResponseEntity.created(location).body("{}");
     }
 }
