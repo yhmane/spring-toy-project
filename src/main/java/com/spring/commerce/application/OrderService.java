@@ -1,20 +1,20 @@
 package com.spring.commerce.application;
 
-import com.spring.commerce.domain.OrderedItem;
-import com.spring.commerce.infra.OrderedItemRepository;
+import com.spring.commerce.domain.OrderItem;
+import com.spring.commerce.infra.OrderItemRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class OrderService {
-    private OrderedItemRepository orderedItemRepository;
+    private OrderItemRepository orderItemRepository;
 
-    public OrderService(OrderedItemRepository orderedItemRepository) {
-        this.orderedItemRepository = orderedItemRepository;
+    public OrderService(OrderItemRepository orderItemRepository) {
+        this.orderItemRepository = orderItemRepository;
     }
 
-    public List<OrderedItem> findAllOrderedItems() {
-        return orderedItemRepository.findAll();
+    public List<OrderItem> findAllOrderItems() {
+        return orderItemRepository.findAll();
     }
 }

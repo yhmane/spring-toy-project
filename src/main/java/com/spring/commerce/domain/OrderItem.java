@@ -7,21 +7,23 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-public class OrderedItem {
+public class OrderItem {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_id")
     private Item item;
+
     private int orderPrice;
     private int count;
 
-    public OrderedItem() {
+    public OrderItem() {
     }
 
-    public OrderedItem(Long id, Item item, int orderPrice, int count) {
+    public OrderItem(Long id, Item item, int orderPrice, int count) {
         this.id = id;
         this.item = item;
         this.orderPrice = orderPrice;

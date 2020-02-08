@@ -1,7 +1,7 @@
 package com.spring.commerce.interfaces;
 
 import com.spring.commerce.application.OrderService;
-import com.spring.commerce.domain.OrderedItem;
+import com.spring.commerce.domain.OrderItem;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +15,8 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/api/ordered")
-    public List<OrderedItem> orderedList() {
-        return orderService.findAllOrderedItems();
+    @GetMapping("/api/order/items")
+    public List<OrderItem> orderItemList() {
+        return orderService.findAllOrderItems();
     }
 }
