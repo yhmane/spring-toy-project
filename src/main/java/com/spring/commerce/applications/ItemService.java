@@ -6,6 +6,7 @@ import com.spring.commerce.domain.ItemRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -13,6 +14,7 @@ import java.util.List;
  * @project commerce
  */
 @Service
+@Transactional
 public class ItemService {
 
     private ItemRepository itemRepository;
@@ -38,5 +40,23 @@ public class ItemService {
     public Item create(ItemRequestDto dto) {
         Item item = itemRepository.save(dto.toEntity());
         return item;
+    }
+
+    public void update(Long id, ItemRequestDto dto) {
+
+        // TODO 1. 에러 처리 필요 (임시로 처리)
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new NullPointerException());
+
+        item.update(dto);
+    }
+
+    public void soldOut(Long id) {
+
+        // TODO 1. 에러 처리 필요 (임시로 처리)
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new NullPointerException());
+
+        item.soldOut(id);
     }
 }

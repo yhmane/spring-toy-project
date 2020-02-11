@@ -40,4 +40,17 @@ public class ItemController {
 
         return ResponseEntity.created(location).body("{}");
     }
+
+    @PatchMapping("/items/{id}")
+    public String update(@PathVariable Long id, @RequestBody ItemRequestDto dto ) {
+
+        itemService.update(id, dto);
+        return "{}";
+    }
+
+    @PutMapping("/items/{id}")
+    public String soldOut(@PathVariable Long id) {
+        itemService.soldOut(id);
+        return "{}";
+    }
 }

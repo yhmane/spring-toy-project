@@ -39,4 +39,14 @@ public class Item {
     public void calculateStockQuantity(int count) {
         this.stockQuantity = stockQuantity - count;
     }
+
+    public void update(ItemRequestDto dto) {
+        this.name = dto.getName();
+        this.price = dto.getPrice();
+        this.stockQuantity = dto.getStockQuantity();
+    }
+
+    public void soldOut(Long id) {
+        this.stockQuantity = 0;
+    }
 }
