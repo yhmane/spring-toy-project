@@ -1,6 +1,7 @@
 package com.spring.commerce.applications;
 
 import com.spring.commerce.domain.*;
+import com.spring.commerce.domain.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +56,14 @@ public class OrderService {
         order.setOrderItems(orderItems);
 
         return order;
+    }
+
+    public void updateOrderStatus(Long id, OrderStatus orderStatus) {
+        // TODO 2. 에러처리 필요 (임시로 NullPointer 에러 발생하게 처리)
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new NullPointerException());
+
+        order.updateOrderStatus(orderStatus);
     }
 }
 

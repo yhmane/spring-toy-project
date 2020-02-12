@@ -6,6 +6,7 @@ package com.spring.commerce.domain.enums;
  */
 public enum OrderStatus {
     READY("주문준비"),
+    CANCEL("주문취소"),
     SUCCESS("주문성공"),
     FAILURE("주문실패");
 
