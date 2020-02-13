@@ -34,6 +34,7 @@ public class ItemService {
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new NullPointerException());
 
+
         return item;
     }
 
