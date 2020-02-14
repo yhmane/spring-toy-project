@@ -3,11 +3,13 @@ package com.spring.commerce.applications;
 import com.spring.commerce.domain.Item;
 import com.spring.commerce.domain.ItemRepository;
 import com.spring.commerce.domain.ItemRequestDto;
+import com.spring.commerce.domain.ItemResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author hwang-yunho on 2020. 2. 3.
@@ -24,18 +26,25 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    public List<Item> list() {
-        return itemRepository.findAll();
+    public List<ItemResponseDto> list() {
+        return itemRepository.findAllDesc()
+                .map(ItemResponseDto::new).collect(Collectors.toList());
+
     }
 
-    public Item getItem(Long id) {
+    public ItemResponseDto getItem(Long id) {
 
         // TODO 1. 에러 처리 필요 (임시로 처리)
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new NullPointerException());
 
+        return ItemResponseDto.builder()
+                .id(item.getId())
+                .name(item.getName())
+                .price(item.getPrice())
+                .stockQuantity(item.getStockQuantity())
+                .build();
 
-        return item;
     }
 
     public Item create(ItemRequestDto dto) {

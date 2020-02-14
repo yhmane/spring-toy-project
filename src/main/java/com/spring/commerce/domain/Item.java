@@ -18,7 +18,7 @@ public class Item extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long itemId;
+    private Long id;
 
     @Column
     private String name;
