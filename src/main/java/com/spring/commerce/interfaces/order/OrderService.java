@@ -23,7 +23,6 @@ public class OrderService {
 
     public Order orderSave(List<OrderDto> orderDtoList) {
         List<OrderItem> orderItemList = new ArrayList<OrderItem>();
-
         Order order = Order.builder()
                 .orderDate(new Date())
                 .orderItems(orderItemList)
@@ -58,6 +57,23 @@ public class OrderService {
         }
 
         return orderDtoList;
+    }
+
+    public Order findOne(int id) {
+        return orderRepository.findById((long) id).orElse(null);
+    }
+
+    public OrderDto update(int id, OrderDto orderDto) {
+        Order order = this.findOne(id);
+        order.updateInfo(OrderStatus.CANCEL);
+        orderRepository.save(order);
+        return orderDto;
+    }
+
+    public Boolean delete(int id) {
+        Order order = this.findOne(id);
+        orderRepository.delete(order);
+        return true;
     }
 }
 

@@ -1,6 +1,7 @@
 package com.spring.commerce.interfaces.order;
 
 import com.spring.commerce.domain.Order;
+import com.spring.commerce.interfaces.item.ItemDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,4 +37,23 @@ public class OrderController {
         return orderService.orderSave(orderDtoList);
     }
 
+    /**
+     * UPDATE
+     * 주문 업데이트
+     * @return ItemDto
+     */
+    @PatchMapping("/update/{id}")
+    public OrderDto update(@PathVariable int id, @RequestBody OrderDto orderDto) {
+        return orderService.update(id, orderDto);
+    }
+
+    /**
+     * DELETE
+     * 주문 삭제
+     * @return boolean
+     */
+    @DeleteMapping("/delete/{id}")
+    public Boolean update(@PathVariable int id) {
+        return orderService.delete(id);
+    }
 }

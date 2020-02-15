@@ -1,5 +1,6 @@
 package com.spring.commerce.interfaces.item;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.spring.commerce.domain.Item;
 import com.spring.commerce.domain.Order;
 import lombok.AllArgsConstructor;
@@ -17,10 +18,7 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     public Item itemSave(ItemDto itemDto) {
-        Item item = Item.builder()
-                .name(itemDto.getName())
-                .price(itemDto.getPrice())
-                .stockQuantity(itemDto.getStockQuantity()).build();
+        Item item = itemDto.toEntity();
         return itemRepository.save(item);
     }
 
@@ -32,12 +30,27 @@ public class ItemService {
                     .name(item.getName())
                     .price(item.getPrice())
                     .stockQuantity(item.getStockQuantity()).build();
+
             itemDtoList.add(itemDto);
         }
         return itemDtoList;
     }
 
-    public Item findOne(Long id) {
-        return itemRepository.findById(id).orElse(null);
+    public Item findOne(int id) {
+        return itemRepository.findById((long) id).orElse(null);
+    }
+
+    public ItemDto update(int id, ItemDto itemDto) {
+        Item item = this.findOne(id);
+        item.updateInfo(itemDto.getName(), itemDto.getPrice(), itemDto.getStockQuantity());
+        itemRepository.save(item);
+        return itemDto;
+    }
+
+    public Boolean delete(int itemId) {
+        Item item = this.findOne(itemId);
+        itemRepository.delete(item);
+
+        return true;
     }
 }

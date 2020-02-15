@@ -23,7 +23,18 @@ public class ItemController {
      */
     @GetMapping("/list")
     public List<ItemDto> list() {
+        System.out.println("---list---");
         return itemService.findAll();
+    }
+
+    /**
+     * UPDATE
+     * 아이템 업데이트
+     * @return ItemDto
+     */
+    @PatchMapping("/update/{id}")
+    public ItemDto update(@PathVariable int id, @RequestBody ItemDto itemDto) {
+        return itemService.update(id, itemDto);
     }
 
     /**
@@ -34,6 +45,16 @@ public class ItemController {
     @PostMapping("/create")
     public Item create(@RequestBody ItemDto itemDto) {
         return itemService.itemSave(itemDto);
+    }
+
+    /**
+     * DELETE
+     * 아이템 삭제
+     * @return boolean
+     */
+    @DeleteMapping("/delete/{itemId}")
+    public Boolean update(@PathVariable int itemId) {
+        return itemService.delete(itemId);
     }
 
 }

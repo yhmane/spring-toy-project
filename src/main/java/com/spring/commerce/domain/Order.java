@@ -34,6 +34,10 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+
+    public void updateInfo(OrderStatus status) {
+        this.status = status;
+    }
 //    @ManyToOne
 //    @JoinColumn(name = "MEMBER_ID")
 //    private Member member;
