@@ -17,10 +17,10 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     public Item itemSave(ItemDto itemDto) {
-        Item item = new Item();
-        item.setName(itemDto.getName());
-        item.setPrice(itemDto.getPrice());
-        item.setStockQuantity(itemDto.getStockQuantity());
+        Item item = Item.builder()
+                .name(itemDto.getName())
+                .price(itemDto.getPrice())
+                .stockQuantity(itemDto.getStockQuantity()).build();
         return itemRepository.save(item);
     }
 
@@ -28,10 +28,10 @@ public class ItemService {
         List<ItemDto> itemDtoList = new ArrayList<ItemDto>();
         List<Item> itemList = itemRepository.findAll();
         for (Item item : itemList) {
-            ItemDto itemDto = new ItemDto();
-            itemDto.setName(item.getName());
-            itemDto.setPrice(item.getPrice());
-            itemDto.setStockQuantity(item.getStockQuantity());
+            ItemDto itemDto = ItemDto.builder()
+                    .name(item.getName())
+                    .price(item.getPrice())
+                    .stockQuantity(item.getStockQuantity()).build();
             itemDtoList.add(itemDto);
         }
         return itemDtoList;

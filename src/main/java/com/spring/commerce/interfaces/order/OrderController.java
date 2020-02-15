@@ -22,7 +22,7 @@ public class OrderController {
       * @return OrderDto
       */
     @GetMapping("/list")
-    public OrderDto list() {
+    public List<OrderDto> list() {
         return orderService.findAll();
     }
 
@@ -32,8 +32,8 @@ public class OrderController {
      * @return String
      */
     @PostMapping("/create")
-    public Order create(@RequestBody OrderDto orderDto) {
-        return orderService.orderSave(orderDto.getList());
+    public Order create(@RequestBody List<OrderDto> orderDtoList) {
+        return orderService.orderSave(orderDtoList);
     }
 
 }

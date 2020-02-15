@@ -9,11 +9,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 @Service
 @Transactional
@@ -24,48 +22,43 @@ public class OrderService {
     private final ItemService itemService;
 
     public Order orderSave(List<OrderDto> orderDtoList) {
-        final Order order = new Order();
-        order.setOrderDate(new Date());
-
         List<OrderItem> orderItemList = new ArrayList<OrderItem>();
+
+        Order order = Order.builder()
+                .orderDate(new Date())
+                .orderItems(orderItemList)
+                .status(OrderStatus.ORDER).build();
+
         for (OrderDto orderDto : orderDtoList) {
-            OrderItem orderItem = new OrderItem();
             Item item = itemService.findOne(orderDto.getItemId());
-            orderItem.setCount(orderDto.getCount());
-            orderItem.setOrder(order);
-            orderItem.setOrderPrice(orderDto.getOrderPrice());
-            orderItem.setItem(item);
+            OrderItem orderItem = OrderItem.builder()
+                    .item(item)
+                    .order(order)
+                    .count(orderDto.getCount())
+                    .orderPrice(orderDto.getOrderPrice()).build();
             orderItemList.add(orderItem);
         }
 
-        order.setOrderItems(orderItemList);
-        order.setStatus(OrderStatus.ORDER);
         return orderRepository.save(order);
     }
 
-    public OrderDto findAll() {
-        OrderDto orderDto = new OrderDto();
+    public List<OrderDto> findAll() {
+        List<OrderDto> orderDtoList = new ArrayList<OrderDto>();
+
         List<Order> orderList = orderRepository.findAll();
-        System.out.println(1);
         for (Order order : orderList) {
-            System.out.println(2);
             List<OrderItem> orderItemList = order.getOrderItems();
             for (OrderItem orderItem : orderItemList) {
-                System.out.println(3);
-
-                OrderDto orderDtoTemp = new OrderDto();
-                System.out.println(4);
-                orderDtoTemp.setCount(orderItem.getCount());
-                orderDtoTemp.setOrderPrice(orderItem.getOrderPrice());
-                orderDtoTemp.setItemName(orderItem.getItem().getName());
-                System.out.println(5);
-                System.out.println(orderDtoTemp.toString());
-                System.out.println(6);
-                orderDto.setAddOrderDtoList(orderDtoTemp);
-                System.out.println(7);
+                OrderDto orderDtoTemp = OrderDto.builder()
+                        .count(orderItem.getCount())
+                        .orderPrice(orderItem.getOrderPrice())
+                        .itemName(orderItem.getItem().getName()).build();
+                orderDtoList.add(orderDtoTemp);
             }
         }
-        System.out.println(4);
-        return orderDto;
+
+        return orderDtoList;
     }
 }
+
+
