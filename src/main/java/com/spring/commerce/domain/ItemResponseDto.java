@@ -1,6 +1,5 @@
 package com.spring.commerce.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,9 +9,7 @@ import lombok.NoArgsConstructor;
  * @project commerce
  */
 @Getter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class ItemResponseDto {
 
     private Long id;
@@ -22,6 +19,14 @@ public class ItemResponseDto {
     private int price;
 
     private int stockQuantity;
+
+    @Builder
+    public ItemResponseDto(Long id, String name, int price, int stockQuantity) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    }
 
     public ItemResponseDto(Item entity) {
         this.id = entity.getId();

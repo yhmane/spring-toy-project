@@ -29,7 +29,6 @@ public class ItemService {
     public List<ItemResponseDto> list() {
         return itemRepository.findAllDesc()
                 .map(ItemResponseDto::new).collect(Collectors.toList());
-
     }
 
     public ItemResponseDto getItem(Long id) {
@@ -44,7 +43,6 @@ public class ItemService {
                 .price(item.getPrice())
                 .stockQuantity(item.getStockQuantity())
                 .build();
-
     }
 
     public Item create(ItemRequestDto dto) {
