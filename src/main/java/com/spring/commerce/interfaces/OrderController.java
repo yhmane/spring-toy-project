@@ -3,6 +3,7 @@ package com.spring.commerce.interfaces;
 import com.spring.commerce.applications.OrderService;
 import com.spring.commerce.domain.Order;
 import com.spring.commerce.domain.OrderItemRequestDto;
+import com.spring.commerce.domain.OrderResponseDto;
 import com.spring.commerce.domain.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,19 +25,21 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping("/orders")
-    public List<Order> list() {
+    public List<OrderResponseDto> list() {
         return orderService.list();
     }
+
     @GetMapping("/orders/{id}")
-    public Order getOrder(@PathVariable Long id) {
-        return orderService.getOrder(id);
+    public OrderResponseDto getOrder(@PathVariable Long id) {
+        OrderResponseDto dto = orderService.getOrder(id);
+        return dto;
     }
 
     @PostMapping("/orders")
     public ResponseEntity<?> create(@Valid @RequestBody List<OrderItemRequestDto> list) throws URISyntaxException {
 
         Order order = orderService.create(list);
-        URI location = new URI("/orders/" + order.getOrderId());
+        URI location = new URI("/orders/" + order.getId());
 
         return ResponseEntity.created(location).body("{}");
     }

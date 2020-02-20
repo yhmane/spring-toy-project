@@ -6,9 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author hwang-yunho on 2020. 2. 4.
@@ -17,30 +14,19 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Order extends BaseTimeEntity{
+public class Order extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
-
-    @OneToMany(mappedBy = "order")
-    List<OrderItem>  orderItems = new ArrayList<OrderItem>();
-
-    @Column
-    private LocalDateTime orderDate;
+    private Long id;
 
     @Column
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
     @Builder
-    public Order(LocalDateTime orderDate, OrderStatus orderStatus) {
-        this.orderDate = orderDate;
+    public Order(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
-    }
-
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
     }
 
     public void updateOrderStatus(OrderStatus orderStatus) {

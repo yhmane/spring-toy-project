@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 /**
  * @author hwang-yunho on 2020. 2. 4.
  * @project commerce
@@ -15,13 +13,12 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class OrderItemRequestDto {
-    private Long itemId;
+    private Long id;
 
     private int count;
 
     public Order toOrderEntity() {
         return Order.builder()
-                .orderDate(LocalDateTime.now())
                 .orderStatus(OrderStatus.READY)
                 .build();
     }

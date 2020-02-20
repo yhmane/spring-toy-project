@@ -3,7 +3,6 @@ package com.spring.commerce.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 
@@ -14,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Item extends BaseTimeEntity{
+public class Item extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +46,6 @@ public class Item extends BaseTimeEntity{
         this.stockQuantity = dto.getStockQuantity();
     }
 
-    @LastModifiedDate
     public void soldOut(Long id) {
         this.stockQuantity = 0;
     }
