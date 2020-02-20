@@ -1,5 +1,6 @@
-package com.spring.commerce.domain;
+package com.spring.commerce.domain.order;
 
+import com.spring.commerce.domain.orderItem.OrderItemResponseDto;
 import com.spring.commerce.domain.enums.OrderStatus;
 import lombok.Builder;
 import lombok.Getter;

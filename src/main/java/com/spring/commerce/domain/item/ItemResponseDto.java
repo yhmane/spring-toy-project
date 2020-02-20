@@ -1,5 +1,6 @@
-package com.spring.commerce.domain;
+package com.spring.commerce.domain.item;
 
+import com.spring.commerce.domain.item.Item;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

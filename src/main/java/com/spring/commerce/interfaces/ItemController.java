@@ -1,9 +1,9 @@
 package com.spring.commerce.interfaces;
 
 import com.spring.commerce.applications.ItemService;
-import com.spring.commerce.domain.Item;
-import com.spring.commerce.domain.ItemRequestDto;
-import com.spring.commerce.domain.ItemResponseDto;
+import com.spring.commerce.domain.item.Item;
+import com.spring.commerce.domain.item.ItemRequestDto;
+import com.spring.commerce.domain.item.ItemResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

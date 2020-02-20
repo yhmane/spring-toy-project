@@ -1,5 +1,6 @@
-package com.spring.commerce.domain;
+package com.spring.commerce.domain.order;
 
+import com.spring.commerce.domain.order.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

@@ -1,5 +1,6 @@
-package com.spring.commerce.domain;
+package com.spring.commerce.domain.item;
 
+import com.spring.commerce.domain.item.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

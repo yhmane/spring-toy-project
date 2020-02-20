@@ -1,9 +1,9 @@
 package com.spring.commerce.interfaces;
 
 import com.spring.commerce.applications.OrderService;
-import com.spring.commerce.domain.Order;
-import com.spring.commerce.domain.OrderItemRequestDto;
-import com.spring.commerce.domain.OrderResponseDto;
+import com.spring.commerce.domain.order.Order;
+import com.spring.commerce.domain.orderItem.OrderItemRequestDto;
+import com.spring.commerce.domain.order.OrderResponseDto;
 import com.spring.commerce.domain.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

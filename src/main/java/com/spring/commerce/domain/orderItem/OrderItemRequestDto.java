@@ -1,6 +1,9 @@
-package com.spring.commerce.domain;
+package com.spring.commerce.domain.orderItem;
 
 import com.spring.commerce.domain.enums.OrderStatus;
+import com.spring.commerce.domain.item.Item;
+import com.spring.commerce.domain.order.Order;
+import com.spring.commerce.domain.orderItem.OrderItem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

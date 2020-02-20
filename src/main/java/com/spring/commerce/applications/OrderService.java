@@ -1,7 +1,15 @@
 package com.spring.commerce.applications;
 
-import com.spring.commerce.domain.*;
 import com.spring.commerce.domain.enums.OrderStatus;
+import com.spring.commerce.domain.item.Item;
+import com.spring.commerce.domain.item.ItemRepository;
+import com.spring.commerce.domain.order.Order;
+import com.spring.commerce.domain.order.OrderRepository;
+import com.spring.commerce.domain.order.OrderResponseDto;
+import com.spring.commerce.domain.orderItem.OrderItem;
+import com.spring.commerce.domain.orderItem.OrderItemRepository;
+import com.spring.commerce.domain.orderItem.OrderItemRequestDto;
+import com.spring.commerce.domain.orderItem.OrderItemResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
