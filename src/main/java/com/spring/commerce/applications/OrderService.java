@@ -2,8 +2,10 @@ package com.spring.commerce.applications;
 
 import com.spring.commerce.domain.enums.OrderStatus;
 import com.spring.commerce.domain.item.Item;
+import com.spring.commerce.domain.item.ItemNotFoundException;
 import com.spring.commerce.domain.item.ItemRepository;
 import com.spring.commerce.domain.order.Order;
+import com.spring.commerce.domain.order.OrderNotFoundException;
 import com.spring.commerce.domain.order.OrderRepository;
 import com.spring.commerce.domain.order.OrderResponseDto;
 import com.spring.commerce.domain.orderItem.OrderItem;
@@ -51,9 +53,8 @@ public class OrderService {
     }
 
     public OrderResponseDto getOrder(Long id) {
-        // TODO 2. 에러처리 필요 (임시로 NullPointer 에러 발생하게 처리)
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new NullPointerException());
+                .orElseThrow(() -> new OrderNotFoundException(id));
 
         return OrderResponseDto.builder()
                 .id(order.getId())
@@ -69,22 +70,20 @@ public class OrderService {
         Order order = orderRepository.save(list.get(0).toOrderEntity());
 
         for (OrderItemRequestDto dto : list) {
-            // TODO 3. 에러처리 필요 (임시로 NullPointer 에러 발생하게 처리)
             Item item = itemRepository.findById(dto.getId())
-                    .orElseThrow(() -> new NullPointerException());
+                    .orElseThrow(() -> new ItemNotFoundException(dto.getId()));
 
             item.calculateStockQuantity(dto.getCount());
 
-            // TODO 4. 재고처리 필요 (일단 -재고 로도 가능하게 구현 후 수정)
             OrderItem orderItem = orderItemRepository.save(dto.toEntity(order, item, item.getPrice()));
         }
         return order;
     }
 
     public void updateOrderStatus(Long id, OrderStatus orderStatus) {
-        // TODO 2. 에러처리 필요 (임시로 NullPointer 에러 발생하게 처리)
+
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new NullPointerException());
+                .orElseThrow(() -> new OrderNotFoundException(id));
 
         order.updateOrderStatus(orderStatus);
     }

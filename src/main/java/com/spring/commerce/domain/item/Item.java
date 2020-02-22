@@ -36,9 +36,14 @@ public class Item extends BaseTimeEntity {
         this.stockQuantity = stockQuantity;
     }
 
-    // TODO  4. 재고가 0 밑으로 떨어질 경우 처리 해줘야 함
-    public void calculateStockQuantity(int count) {
-        this.stockQuantity = stockQuantity - count;
+    public void calculateStockQuantity(int count) throws ItemStockLimitException {
+
+        // 재고검사
+        if(stockQuantity - count < 0) {
+           throw new ItemStockLimitException(id, stockQuantity ,count);
+        }
+
+        stockQuantity = stockQuantity - count;
     }
 
     public void update(ItemRequestDto dto) {

@@ -1,9 +1,6 @@
 package com.spring.commerce.applications;
 
-import com.spring.commerce.domain.item.Item;
-import com.spring.commerce.domain.item.ItemRepository;
-import com.spring.commerce.domain.item.ItemRequestDto;
-import com.spring.commerce.domain.item.ItemResponseDto;
+import com.spring.commerce.domain.item.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +30,8 @@ public class ItemService {
 
     public ItemResponseDto getItem(Long id) {
 
-        // TODO 1. 에러 처리 필요 (임시로 처리)
         Item item = itemRepository.findById(id)
-                .orElseThrow(() -> new NullPointerException());
+                .orElseThrow(() -> new ItemNotFoundException(id));
 
         return ItemResponseDto.builder()
                 .id(item.getId())
@@ -52,18 +48,16 @@ public class ItemService {
 
     public void update(Long id, ItemRequestDto dto) {
 
-        // TODO 1. 에러 처리 필요 (임시로 처리)
         Item item = itemRepository.findById(id)
-                .orElseThrow(() -> new NullPointerException());
+                .orElseThrow(() -> new ItemNotFoundException(id));
 
         item.update(dto);
     }
 
     public void soldOut(Long id) {
 
-        // TODO 1. 에러 처리 필요 (임시로 처리)
         Item item = itemRepository.findById(id)
-                .orElseThrow(() -> new NullPointerException());
+                .orElseThrow(() -> new ItemNotFoundException(id));
 
         item.soldOut(id);
     }
