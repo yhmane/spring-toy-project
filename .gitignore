@@ -30,3 +30,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### log ###
+*.log
+
+### etc ###
+.DS_Store
