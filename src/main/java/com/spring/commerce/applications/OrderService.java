@@ -13,6 +13,8 @@ import com.spring.commerce.domain.orderItem.OrderItemRepository;
 import com.spring.commerce.domain.orderItem.OrderItemRequestDto;
 import com.spring.commerce.domain.orderItem.OrderItemResponseDto;
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -29,11 +31,13 @@ import java.util.stream.Collectors;
 @Transactional
 public class OrderService {
 
-    private OrderRepository orderRepository;
+    private static final Logger LOGGER = LogManager.getLogger(OrderService.class);
 
-    private ItemRepository itemRepository;
+    private final OrderRepository orderRepository;
 
-    private OrderItemRepository orderItemRepository;
+    private final ItemRepository itemRepository;
+
+    private final OrderItemRepository orderItemRepository;
 
     public List<OrderResponseDto> list() {
         List<Order> list = orderRepository.findAll();
@@ -53,8 +57,13 @@ public class OrderService {
     }
 
     public OrderResponseDto getOrder(Long id) {
+
+        LOGGER.info("OrderService getItem param id : " + id);
+
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
+
+        LOGGER.info("OrderService getOrder order entity id : " + order.getId());
 
         return OrderResponseDto.builder()
                 .id(order.getId())
@@ -68,12 +77,18 @@ public class OrderService {
     public Order create(List<OrderItemRequestDto> list) {
 
         Order order = orderRepository.save(list.get(0).toOrderEntity());
+        LOGGER.info("OrderService create order entity id : " + order.getId());
 
         for (OrderItemRequestDto dto : list) {
             Item item = itemRepository.findById(dto.getId())
                     .orElseThrow(() -> new ItemNotFoundException(dto.getId()));
 
+            LOGGER.info("OrderService create item entity id : " + item.getId());
+            LOGGER.info("OrderService create item  before Stock: " + item.getStockQuantity());
+            LOGGER.info("OrderService create item  ordered Stock: " + dto.getCount());
             item.calculateStockQuantity(dto.getCount());
+
+            LOGGER.info("OrderService create item after Stock : " + item.getStockQuantity());
 
             OrderItem orderItem = orderItemRepository.save(dto.toEntity(order, item, item.getPrice()));
         }
@@ -82,9 +97,13 @@ public class OrderService {
 
     public void updateOrderStatus(Long id, OrderStatus orderStatus) {
 
+        LOGGER.info("OrderService updateOrderStatus param id : " + id);
+        LOGGER.info("OrderService updateOrderStatus param orderStatus : " + orderStatus);
+
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
 
+        LOGGER.info("OrderService updateOrderStatus order entity id : " + order.getId());
         order.updateOrderStatus(orderStatus);
     }
 }

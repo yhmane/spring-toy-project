@@ -1,6 +1,8 @@
 package com.spring.commerce.applications;
 
 import com.spring.commerce.domain.item.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,9 @@ import java.util.stream.Collectors;
 @Transactional
 public class ItemService {
 
-    private ItemRepository itemRepository;
+    private static final Logger LOGGER = LogManager.getLogger(ItemService.class);
+
+    private final ItemRepository itemRepository;
 
     @Autowired
     public ItemService(ItemRepository itemRepository) {
@@ -30,8 +34,12 @@ public class ItemService {
 
     public ItemResponseDto getItem(Long id) {
 
+        LOGGER.info("ItemService getItem param id : " + id);
+
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException(id));
+
+        LOGGER.info("ItemService getItem item entity id : " + item.getId());
 
         return ItemResponseDto.builder()
                 .id(item.getId())
@@ -42,22 +50,37 @@ public class ItemService {
     }
 
     public Item create(ItemRequestDto dto) {
-        Item item = itemRepository.save(dto.toEntity());
-        return item;
+
+        LOGGER.info("ItemService create param name : " + dto.getName());
+        LOGGER.info("ItemService create param price : " + dto.getPrice());
+        LOGGER.info("ItemService create param stockQuantity : " + dto.getStockQuantity());
+
+        return itemRepository.save(dto.toEntity());
     }
 
     public void update(Long id, ItemRequestDto dto) {
 
+        LOGGER.info("ItemService update param id : " + id);
+        LOGGER.info("ItemService update param name : " + dto.getName());
+        LOGGER.info("ItemService update param price : " + dto.getPrice());
+        LOGGER.info("ItemService update param stockQuantity : " + dto.getStockQuantity());
+
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException(id));
+
+        LOGGER.info("ItemService update item entity id : " + item.getId());
 
         item.update(dto);
     }
 
     public void soldOut(Long id) {
 
+        LOGGER.info("ItemService soldOut param id : " + id);
+
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException(id));
+
+        LOGGER.info("ItemService soldOut item entity id : " + item.getId());
 
         item.soldOut(id);
     }

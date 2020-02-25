@@ -54,6 +54,7 @@ public class ItemController {
     @PatchMapping("/items/{id}")
     public String update(@PathVariable Long id, @RequestBody ItemRequestDto dto ) {
 
+        LOGGER.info("itemController PATCH /items param id : " + id);
         LOGGER.info("itemController PATCH /items param name : " + dto.getName());
         LOGGER.info("itemController PATCH /items param price : " + dto.getPrice());
         LOGGER.info("itemController PATCH /items param stockQuantity : " + dto.getStockQuantity());
