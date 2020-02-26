@@ -3,6 +3,7 @@ package com.spring.commerce.applications;
 import com.spring.commerce.domain.enums.OrderStatus;
 import com.spring.commerce.domain.item.Item;
 import com.spring.commerce.domain.item.ItemNotFoundException;
+import com.spring.commerce.domain.item.ItemOverlapException;
 import com.spring.commerce.domain.item.ItemRepository;
 import com.spring.commerce.domain.order.Order;
 import com.spring.commerce.domain.order.OrderNotFoundException;
@@ -79,6 +80,12 @@ public class OrderService {
         Order order = orderRepository.save(list.get(0).toOrderEntity());
         LOGGER.info("OrderService create order entity id : " + order.getId());
 
+        // 아이템 중복 오류
+        if(list.stream().map(OrderItemRequestDto::getId).distinct().count() != list.size()) {
+            throw new ItemOverlapException();
+        }
+
+
         for (OrderItemRequestDto dto : list) {
             Item item = itemRepository.findById(dto.getId())
                     .orElseThrow(() -> new ItemNotFoundException(dto.getId()));
@@ -105,6 +112,37 @@ public class OrderService {
 
         LOGGER.info("OrderService updateOrderStatus order entity id : " + order.getId());
         order.updateOrderStatus(orderStatus);
+        orderCancelItemStockUpdate(order);
+
+    }
+
+    /**
+     * 주문취소나 실패로인한 재고상태 업데이트
+     * @param order
+     */
+    public void orderCancelItemStockUpdate(Order order) {
+
+        LOGGER.info("orderCancelItemStockUpdate order id: " + order.getId());
+        LOGGER.info("orderCancelItemStockUpdate order orderStatus: " + order.getOrderStatus());
+
+        if(order.getOrderStatus().equals(OrderStatus.CANCEL) || order.getOrderStatus().equals(OrderStatus.FAILURE)) {
+
+            List<OrderItemResponseDto> orderItemList = orderItemRepository.findByOrder(order)
+                    .map(OrderItemResponseDto::new).collect(Collectors.toList());
+
+            for(OrderItemResponseDto oi : orderItemList) {
+                Item item = itemRepository.findById(oi.getItemResponseDto().getId())
+                        .orElseThrow(() -> new ItemNotFoundException(oi.getItemResponseDto().getId()));
+
+                LOGGER.info("orderCancelItemStockUpdate item id: " + item.getId());
+                LOGGER.info("orderCancelItemStockUpdate item before stock: " + item.getStockQuantity());
+                LOGGER.info("orderCancelItemStockUpdate order cancel stock: " + oi.getCount());
+
+                // 삭감된 재고를 다시 재고에 더하여 줌
+                item.calculateStockQuantity(-oi.getCount());
+                LOGGER.info("orderCancelItemStockUpdate item after stock: " + item.getStockQuantity());
+            }
+        }
     }
 }
 

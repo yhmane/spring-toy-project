@@ -1,6 +1,7 @@
 package com.spring.commerce.advice;
 
 import com.spring.commerce.domain.item.ItemNotFoundException;
+import com.spring.commerce.domain.item.ItemOverlapException;
 import com.spring.commerce.domain.item.ItemStockLimitException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,6 +18,12 @@ public class ItemErrorAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ItemNotFoundException.class)
     public String handleNotFound(ItemNotFoundException e) {
+        return e.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ItemOverlapException.class)
+    public String handleOverlapEntity(ItemOverlapException e) {
         return e.getMessage();
     }
 
