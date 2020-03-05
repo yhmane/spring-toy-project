@@ -6,6 +6,6 @@ package com.spring.commerce.domain.item;
  */
 public class ItemNotFoundException extends RuntimeException{
     public ItemNotFoundException(Long id) {
-        super("ItemNotFoundException, item id :  " + id);
+        super("ItemNotFoundException, item id : " + id);
     }
 }

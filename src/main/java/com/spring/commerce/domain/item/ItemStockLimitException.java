@@ -7,6 +7,6 @@ package com.spring.commerce.domain.item;
 public class ItemStockLimitException extends RuntimeException {
 
     public ItemStockLimitException(Long id, int currentStock, int orderCount) {
-        super("ItemStockLimitException, item id :  " + id + ", currentStock : " + currentStock + ", orderCount : " + orderCount);
+        super("ItemStockLimitException, item id : " + id + ", currentStock : " + currentStock + ", orderCount : " + orderCount);
     }
 }
