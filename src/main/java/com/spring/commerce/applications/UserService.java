@@ -1,10 +1,7 @@
 package com.spring.commerce.applications;
 
 import com.spring.commerce.domain.enums.UserLevel;
-import com.spring.commerce.domain.user.User;
-import com.spring.commerce.domain.user.UserRepository;
-import com.spring.commerce.domain.user.UserRequestDto;
-import com.spring.commerce.domain.user.UserResponseDto;
+import com.spring.commerce.domain.user.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,11 +67,35 @@ public class UserService {
             throw new Exception("이메일 중복 에러 : " + dto.getEmail());
         }
 
+        // 비밀번호 암호
+        String encodePassword = passwordEncoder.encode(dto.getPassword());
+        dto.setPassword(encodePassword);
+
         // 추가시 일반사용자로 우선 등록됨
         dto.setUserLevel(UserLevel.NORMAL);
 
-        String encodePassword = passwordEncoder.encode(dto.getPassword());
         return userRepository.save(dto.toEntity());
     }
 
+    public void update(Long id, UserPatchRequestDto dto) throws Exception{
+
+        LOGGER.info("UserService update param name : " + dto.getName());
+        LOGGER.info("UserService update param phoneNum : " + dto.getPhoneNum());
+
+        // TODO 사용자 없을때  Exception 처리
+        User user = userRepository.findById(id).orElseThrow(() -> new NullPointerException());
+
+        String encodePassword = passwordEncoder.encode(dto.getPassword());
+        dto.setPassword(encodePassword);
+        user.updateInfo(dto);
+    }
+
+    public void levelChange(Long id, UserLevel userLevel) {
+        LOGGER.info("UserService levelChange param id : " + id);
+        LOGGER.info("UserService levelChange param userLevel : " + userLevel);
+
+        // TODO 사용자 없을때  Exception 처리
+        User user = userRepository.findById(id).orElseThrow(() -> new NullPointerException());
+        user.levelChange(userLevel);
+    }
 }
