@@ -1,5 +1,6 @@
 package com.spring.commerce.applications;
 
+import com.spring.commerce.advice.UserEmailOverlapException;
 import com.spring.commerce.domain.enums.UserLevel;
 import com.spring.commerce.domain.user.*;
 import org.apache.logging.log4j.LogManager;
@@ -39,9 +40,9 @@ public class UserService {
         return list;
     }
 
-    public UserResponseDto getUser(Long id) throws Exception {
-        // TODO 사용자 없을때  Exception 처리
-        User user = userRepository.findById(id).orElseThrow(() -> new NullPointerException());
+    public UserResponseDto getUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
 
         LOGGER.info("UserService getUser user email : " + user.getEmail());
         LOGGER.info("UserService getUser user name : " + user.getName());
@@ -54,7 +55,7 @@ public class UserService {
                 .build();
     }
 
-    public User addUser(UserRequestDto dto) throws Exception {
+    public User addUser(UserRequestDto dto) {
 
         LOGGER.info("UserService addUser param email : " + dto.getEmail());
         LOGGER.info("UserService addUser param name : " + dto.getName());
@@ -63,8 +64,7 @@ public class UserService {
         // email 중복 에러
         Optional<User> existed = userRepository.findByEmail(dto.getEmail());
         if(existed.isPresent()) {
-            // TODO 이메일 중복에러 처리
-            throw new Exception("이메일 중복 에러 : " + dto.getEmail());
+            throw new UserEmailOverlapException(dto.getEmail());
         }
 
         // 비밀번호 암호
@@ -77,13 +77,13 @@ public class UserService {
         return userRepository.save(dto.toEntity());
     }
 
-    public void update(Long id, UserPatchRequestDto dto) throws Exception{
+    public void update(Long id, UserPatchRequestDto dto) {
 
         LOGGER.info("UserService update param name : " + dto.getName());
         LOGGER.info("UserService update param phoneNum : " + dto.getPhoneNum());
 
-        // TODO 사용자 없을때  Exception 처리
-        User user = userRepository.findById(id).orElseThrow(() -> new NullPointerException());
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
 
         String encodePassword = passwordEncoder.encode(dto.getPassword());
         dto.setPassword(encodePassword);
@@ -94,8 +94,9 @@ public class UserService {
         LOGGER.info("UserService levelChange param id : " + id);
         LOGGER.info("UserService levelChange param userLevel : " + userLevel);
 
-        // TODO 사용자 없을때  Exception 처리
-        User user = userRepository.findById(id).orElseThrow(() -> new NullPointerException());
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
         user.levelChange(userLevel);
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -34,13 +35,13 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public UserResponseDto getUser(@PathVariable Long id) throws Exception {
+    public UserResponseDto getUser(@PathVariable Long id) {
         LOGGER.info("UserController GET /users param id : " + id);
         return userService.getUser(id);
     }
 
     @PostMapping("/users")
-    public ResponseEntity<?> create(@RequestBody UserRequestDto dto) throws Exception {
+    public ResponseEntity<?> create(@RequestBody UserRequestDto dto) throws URISyntaxException {
         LOGGER.info("UserController POST /users param email : " + dto.getEmail());
         LOGGER.info("UserController POST /users param name : " + dto.getName());
         LOGGER.info("UserController POST /users param phoneNum : " + dto.getPhoneNum());
@@ -53,7 +54,7 @@ public class UserController {
     }
 
     @PatchMapping("/users/{id}")
-    public String update(@PathVariable Long id, @RequestBody UserPatchRequestDto dto) throws Exception {
+    public String update(@PathVariable Long id, @RequestBody UserPatchRequestDto dto) {
         LOGGER.info("UserController PATCH /users param id : " + id);
         LOGGER.info("UserController PATCH /users param name : " + dto.getName());
         LOGGER.info("UserController PATCH /users param phoneNum : " + dto.getPhoneNum());
