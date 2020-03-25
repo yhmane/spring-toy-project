@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<?> create(@RequestBody UserRequestDto dto) throws URISyntaxException {
+    public ResponseEntity<?> create(@Valid @RequestBody UserRequestDto dto) throws URISyntaxException {
         LOGGER.info("UserController POST /users param email : " + dto.getEmail());
         LOGGER.info("UserController POST /users param name : " + dto.getName());
         LOGGER.info("UserController POST /users param phoneNum : " + dto.getPhoneNum());
@@ -54,7 +54,7 @@ public class UserController {
     }
 
     @PatchMapping("/users/{id}")
-    public String update(@PathVariable Long id, @RequestBody UserPatchRequestDto dto) {
+    public String update(@PathVariable Long id, @Valid @RequestBody UserPatchRequestDto dto) {
         LOGGER.info("UserController PATCH /users param id : " + id);
         LOGGER.info("UserController PATCH /users param name : " + dto.getName());
         LOGGER.info("UserController PATCH /users param phoneNum : " + dto.getPhoneNum());
