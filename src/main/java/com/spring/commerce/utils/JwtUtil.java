@@ -1,5 +1,6 @@
 package com.spring.commerce.utils;
 
+import com.spring.commerce.domain.enums.UserLevel;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -14,22 +15,21 @@ import java.security.Key;
  */
 public class JwtUtil {
 
+    // TODO ACCESS TOKEN 생명주기, REFRESH TOKEN 설계
+
     private Key key;
 
     public JwtUtil(String secret) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String createToken(long userId, String name, Long itemId) {
+    public String createToken(long userId, String email, String name, UserLevel userLevel) {
 
         JwtBuilder builder = Jwts.builder()
                 .claim("userId", userId)
-                .claim("name", name);
-
-        // 판매자일 경우
-        if(itemId != null) {
-            builder = builder.claim("itemId", itemId);
-        }
+                .claim("email", email)
+                .claim("name", name)
+                .claim("level", userLevel);
 
         return builder
                 .signWith(key, SignatureAlgorithm.HS256)

@@ -1,6 +1,6 @@
 package com.spring.commerce.applications;
 
-import com.spring.commerce.advice.UserEmailOverlapException;
+import com.spring.commerce.domain.user.UserEmailOverlapException;
 import com.spring.commerce.domain.enums.UserLevel;
 import com.spring.commerce.domain.user.*;
 import org.apache.logging.log4j.LogManager;
@@ -98,5 +98,19 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(id));
 
         user.levelChange(userLevel);
+    }
+
+    public User authenticate(String email, String password) {
+
+        // email 존재하지 않을시 에러
+        User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new UserEmailNotExistedException(email));
+
+        // 패스워드 불일치 에러
+        if(!passwordEncoder.matches(password, user.getPassword())) {
+            throw new UserPasswordWrongException();
+        }
+
+        return user;
     }
 }

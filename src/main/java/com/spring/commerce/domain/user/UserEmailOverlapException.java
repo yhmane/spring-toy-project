@@ -1,4 +1,4 @@
-package com.spring.commerce.advice;
+package com.spring.commerce.domain.user;
 
 /**
  * @author hwang-yunho on 2020. 3. 17.

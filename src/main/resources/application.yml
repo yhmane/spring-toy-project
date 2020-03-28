@@ -6,6 +6,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
+jwt:
+  secret: yhmane1000##!tempjwtpassword1234 # 256bit >=
+
 # local 환경
 ---
 spring:
